@@ -20,18 +20,35 @@ void dispose(){
   _foodStreamController?.close();
 }
 
-  Future<List<dynamic>> listarRestaurantes()async{
+  Future<List<dynamic>> listarRestaurantes({String slug_type=''})async{
     
-    Uri uri = Uri.https(url,'/api/restaurants/');
-    final resp = await http.get(
-      uri
-    );
+    // if(slug_type == ''){
+    //   Uri uri = Uri.https(url,'/api/restaurants/');
+    //   final resp = await http.get(
+    //     uri
+    //   );
+    //   final decodedResp = json.decode(resp.body);
 
-    final decodedResp = json.decode(resp.body);
+    //   restaurantesSink(decodedResp);
+    //   notifyListeners();
+    //   return decodedResp;
+    // }else{
+    // }
+      Uri uri = Uri.https(
+        url,
+        '/api/restaurants/',
+        {
+          'food_type__slug': (slug_type == '')? '' : '$slug_type'
+        });
+      final resp = await http.get(
+        uri
+      );
 
-    restaurantesSink(decodedResp);
-    notifyListeners();
-    return decodedResp;
+      final decodedResp = json.decode(resp.body);
+
+      restaurantesSink(decodedResp);
+      notifyListeners();
+      return decodedResp;
   }
 
   Future<Map<String,dynamic>> crearRestaurante(String name, String description, File logo, String food_type)async{

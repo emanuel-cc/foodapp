@@ -358,6 +358,11 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
+                (restaurantes.items.length == 0)?
+                Container(
+                  padding: EdgeInsets.only(left: 20.0),
+                  child: Text("No hay resultados"),
+                ):
                 listaRestaurantes(context, restaurantes.items),
               ],
             );
